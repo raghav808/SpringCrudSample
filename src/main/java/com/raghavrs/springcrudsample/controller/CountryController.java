@@ -22,7 +22,7 @@ public class CountryController {
 	@Autowired
 	CountryService countryService;
 
-	@RequestMapping(value = "/getAllCountries", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getCountries(Model model) {
 
 		List<Country> listOfCountries = countryService.getAllCountries();
@@ -49,7 +49,7 @@ public class CountryController {
 //			countryService.updateCountry(country);
 //		}
 
-		return "redirect:/getAllCountries";
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/updateCountry/{id}", method = RequestMethod.GET)
@@ -62,7 +62,7 @@ public class CountryController {
 	@RequestMapping(value = "/deleteCountry/{id}", method = RequestMethod.GET)
 	public String deleteCountry(@PathVariable("id") String id) {
 		countryService.deleteCountry(Integer.parseInt(id));
-		return "redirect:/getAllCountries";
+		return "redirect:/";
 
 	}
 	
