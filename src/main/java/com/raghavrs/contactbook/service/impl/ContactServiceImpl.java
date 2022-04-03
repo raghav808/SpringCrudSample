@@ -20,7 +20,7 @@ public class ContactServiceImpl implements ContactService {
 	public List<Contact> getAllContancts() {
 		return contactRepository.findAll();
 	}
-
+/*
 	@Override
 	public List<ResponseContactDTO> searchByNumber(String number) {
 		return contactRepository.findAll(containsNumber(number)).stream()
@@ -40,7 +40,7 @@ public class ContactServiceImpl implements ContactService {
 	private Specification<Contact> containsNumber(String number) {
 		return (root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.upper(root.get("phoneNumber")), "%" + number.toUpperCase() + "%");
 	}
-
+*/
 	@Override
 	public void addContact(Contact contact) {
 		contactRepository.save(contact);
