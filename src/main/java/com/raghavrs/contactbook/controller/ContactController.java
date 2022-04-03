@@ -39,8 +39,6 @@ public class ContactController {
 			model.addAttribute("listOfContacts", contactService.getAllContancts());
 			return "homePage";
 		}
-
-//		contactService.addContact(contact);
 		
 		if (contact.getId() == null) {
 			contactService.addContact(contact);
