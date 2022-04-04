@@ -1,6 +1,9 @@
 package com.raghavrs.contactbook.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.criteria.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,43 +18,39 @@ public class ContactServiceImpl implements ContactService {
 
 	@Autowired
 	private ContactRepository contactRepository;
-	
+
 	@Override
 	public List<Contact> getAllContancts() {
 		return contactRepository.findAll();
 	}
-/*
-	@Override
-	public List<ResponseContactDTO> searchByNumber(String number) {
-		return contactRepository.findAll(containsNumber(number)).stream()
-				.map(contact -> new ResponseContactDTO(contact.getName(), contact.getPhoneNumber())).toList();
-		}
 
 	@Override
-	public List<ResponseContactDTO> searchByName(String name) {
-		return contactRepository.findAll(containsName(name)).stream()
-				.map(contact -> new ResponseContactDTO(contact.getName(), contact.getPhoneNumber())).toList();
+	public List<Contact> searchContacts(String input) {
+		return contactRepository.findAll(containsNumberOrName(input)).stream().toList();
 	}
 
-	private Specification<Contact> containsName(String name) {
-		return (root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.upper(root.get("name")), "%" + name.toUpperCase() + "%");
+	private Specification<Contact> containsNumberOrName(String input) {
+		return (root, query, criteriaBuilder) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			predicates.add(
+					criteriaBuilder.like(criteriaBuilder.upper(root.get("name")), "%" + input.toUpperCase() + "%"));
+			predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("phoneNumber")),
+					"%" + input.toUpperCase() + "%"));
+
+			return criteriaBuilder.or(predicates.toArray(new Predicate[0]));
+		};
 	}
 
-	private Specification<Contact> containsNumber(String number) {
-		return (root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.upper(root.get("phoneNumber")), "%" + number.toUpperCase() + "%");
-	}
-*/
 	@Override
 	public void addContact(Contact contact) {
 		contactRepository.save(contact);
-		
+
 	}
 
 	@Override
 	public void updateContact(Contact contact) {
-//		Contact dbContact = 
 		contactRepository.save(contact);
-		
+
 	}
 
 	@Override
@@ -62,7 +61,7 @@ public class ContactServiceImpl implements ContactService {
 	@Override
 	public void deleteContact(Long id) {
 		contactRepository.deleteById(id);
-		
+
 	}
 
 }

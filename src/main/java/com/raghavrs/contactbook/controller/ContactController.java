@@ -1,7 +1,5 @@
 package com.raghavrs.contactbook.controller;
 
-
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +59,17 @@ public class ContactController {
 		contactService.deleteContact(Long.parseLong(id));
 		return "redirect:/";
 
+	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public String searchContacts(String keyword, Model model) {
+		if(keyword != null) {
+			model.addAttribute("listOfContacts",contactService.searchContacts(keyword));
+		}else {
+			model.addAttribute("listOfContacts", contactService.getAllContancts());
+		}
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("contact", new Contact());
+		return "homePage";
 	}
 }
