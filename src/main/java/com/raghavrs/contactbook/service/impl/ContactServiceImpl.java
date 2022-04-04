@@ -26,7 +26,7 @@ public class ContactServiceImpl implements ContactService {
 
 	@Override
 	public List<Contact> searchContacts(String input) {
-		return contactRepository.findAll(containsNumberOrName(input)).stream().toList();
+		return contactRepository.findAll(containsNumberOrName(input));
 	}
 
 	private Specification<Contact> containsNumberOrName(String input) {
